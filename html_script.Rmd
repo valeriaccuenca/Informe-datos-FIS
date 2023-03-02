@@ -15,7 +15,9 @@ library(readxl)
 library(ggplot2)
 ```
 
-## Diabetes {.tabset}
+## Diabetes {.tabset .tabset-fade .tabset-pills}
+
+### Diferencias absolutas {.tabset .tabset-fade .tabset-pills}
 
 ``` {r, echo=F}
 
@@ -25,7 +27,7 @@ datos_canarias <- ejemplo_datos %>%
 
 ```
 
-### Global
+#### Global
 
 ``` {r, echo=F}
 
@@ -37,7 +39,7 @@ datos_canarias %>%
 
 ```
 
-### Hombres
+#### Hombres
 
 ``` {r, echo=F}
 
@@ -49,7 +51,53 @@ datos_canarias %>%
 
 ```
 
-### Mujeres
+#### Mujeres
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Women") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+### Diferencias relativas {.tabset .tabset-fade .tabset-pills}
+
+``` {r, echo=F}
+
+ejemplo_datos <- read_xlsx("ejemplo_datos.xlsx")
+datos_canarias <- ejemplo_datos %>%
+  filter(nombre == "Canarias")
+
+```
+
+#### Global
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Overall") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+#### Hombres
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Men") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+#### Mujeres
 
 ``` {r, echo=F}
 
@@ -62,9 +110,11 @@ datos_canarias %>%
 ```
 
 
-## Hipertensión arterial {.tabset}
+## Hipertensión arterial {.tabset .tabset-fade .tabset-pills}
 
-### Global
+### Diferencias abolustas {.tabset .tabset-fade .tabset-pills}
+
+#### Global
 
 ``` {r, echo=F}
 
@@ -76,7 +126,7 @@ datos_canarias %>%
 
 ```
 
-### Hombres
+#### Hombres
 
 ``` {r, echo=F}
 
@@ -88,12 +138,58 @@ datos_canarias %>%
 
 ```
 
-### Mujeres
+#### Mujeres
 
 ``` {r, echo=F}
 
 datos_canarias %>%
   filter(fr =="hta", sexo=="Women") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+### Diferencias relativas {.tabset .tabset-fade .tabset-pills}
+
+``` {r, echo=F}
+
+ejemplo_datos <- read_xlsx("ejemplo_datos.xlsx")
+datos_canarias <- ejemplo_datos %>%
+  filter(nombre == "Canarias")
+
+```
+
+#### Global
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Overall") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+#### Hombres
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Men") %>%
+  ggplot(aes(x=encuesta, y=Varlor)) +
+  geom_point() +
+  geom_linerange(aes(ymin=infci, ymax=supci))
+
+```
+
+#### Mujeres
+
+``` {r, echo=F}
+
+datos_canarias %>%
+  filter(fr =="diabetes", sexo=="Women") %>%
   ggplot(aes(x=encuesta, y=Varlor)) +
   geom_point() +
   geom_linerange(aes(ymin=infci, ymax=supci))

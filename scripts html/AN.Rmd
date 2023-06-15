@@ -30,8 +30,14 @@ Este informe se enmarca dentro del Proyecto FIS XX financiado por XX
 
 ```{r, echo=F}
 
-desigualdades_rii <- read.csv("rii.csv")
-datos_ca <- desigualdades_rii %>%
+desigualdades_rii_spain <- read.csv("rii_spain.csv")
+prevalencias_spain <- read.csv("prevalencias_spain.csv")
+
+prevalencias_ccaa <- read.csv("prevalencias_ccaa.csv")
+prevalencias_ca <- prevalencias_ccaa %>%
+  filter(abreviatura == "AN")
+desigualdades_rii_ccaa <- read.csv("rii_ccaa.csv")
+desigualdades_ca <- desigualdades_rii_ccaa %>%
   filter(abreviatura == "AN")
 
 ```
@@ -42,14 +48,14 @@ datos_ca <- desigualdades_rii %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="diabetes", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -64,14 +70,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="diabetes", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -86,14 +92,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="diabetes", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -110,14 +116,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="hta", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -131,14 +137,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="hta", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -153,14 +159,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="hta", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -177,14 +183,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="obesity", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -198,14 +204,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="obesity", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -220,14 +226,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="obesity", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -244,14 +250,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="col", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -265,14 +271,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="col", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -287,14 +293,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="col", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -311,14 +317,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="sedentario", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -332,14 +338,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="sedentario", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -354,14 +360,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="sedentario", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -378,14 +384,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -399,14 +405,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -421,14 +427,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -445,14 +451,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -466,14 +472,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),
@@ -488,14 +494,14 @@ datos_ca %>%
 
 ```{r, echo=F}
 
-datos_ca %>%
+desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
   geom_line(aes(color=fr)) +
   scale_y_continuous(trans="log", breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
-  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(datos_ca$encuesta)))+
+  scale_x_date(date_labels = "%Y", breaks = unique(as.Date(desigualdades_ca$encuesta)))+
   labs(x="", y="RII (IC 95%)")+
   theme_bw()+
   theme(axis.text=element_text(size=20, color="black"),

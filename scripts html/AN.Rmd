@@ -34,8 +34,17 @@ desigualdades_rii_spain <- read.csv("rii_spain.csv")
 prevalencias_spain <- read.csv("prevalencias_spain.csv")
 
 prevalencias_ccaa <- read.csv("prevalencias_ccaa.csv")
+
+prevalencias_ca <- prevalencias_ccaa %>%
+  filter(abreviatura=="AN") %>%
+  mutate(educa=case_when(education_3==1~"Bajo", 
+                         education_3==2~"Medio", 
+                         education_3==3~"Alto"), 
+         educa=factor(educa, levels=c("Bajo", "Medio", "Alto")))
+
 prevalencias_ca <- prevalencias_ccaa %>%
   filter(abreviatura == "AN")
+
 desigualdades_rii_ccaa <- read.csv("rii_ccaa.csv")
 desigualdades_ca <- desigualdades_rii_ccaa %>%
   filter(abreviatura == "AN")
@@ -48,7 +57,21 @@ desigualdades_ca <- desigualdades_rii_ccaa %>%
 
 ```{r, echo=F}
 
-desigualdades_ca %>%
+figura1_an <-  
+prevalencias_ca %>%
+  filter(sexo=="Overall") %>%
+  ggplot(aes(x=encuesta, y=diabetes*100, color=educa, 
+             ymin=diabetes_low*100, ymax=diabetes_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura1_an
+
+desigualdades_an %>%
   filter(fr =="diabetes", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +

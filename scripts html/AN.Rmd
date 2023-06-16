@@ -40,10 +40,11 @@ prevalencias_ca <- prevalencias_ccaa %>%
   mutate(educa=case_when(education_3==1~"Bajo", 
                          education_3==2~"Medio", 
                          education_3==3~"Alto"), 
-         educa=factor(educa, levels=c("Bajo", "Medio", "Alto")))
-
-prevalencias_ca <- prevalencias_ccaa %>%
-  filter(abreviatura == "AN")
+         educa=factor(educa, levels=c("Bajo", "Medio", "Alto"))) %>%
+  mutate(sexo=case_when(sexo=="0"~"Hombre",
+                        sexo=="1"~"Mujeres",
+                        sexo=="Overall"~"Overall"),
+         sexo=factor(sexo, levels=c("Overall", "Hombre", "Mujeres")))
 
 desigualdades_rii_ccaa <- read.csv("rii_ccaa.csv")
 desigualdades_ca <- desigualdades_rii_ccaa %>%
@@ -55,9 +56,9 @@ desigualdades_ca <- desigualdades_rii_ccaa %>%
 
 ### Global
 
+# Prevalencias
 ```{r, echo=F}
-
-figura1_an <-  
+figura1_an <-
 prevalencias_ca %>%
   filter(sexo=="Overall") %>%
   ggplot(aes(x=encuesta, y=diabetes*100, color=educa, 
@@ -71,7 +72,12 @@ prevalencias_ca %>%
   theme_bw()
 figura1_an
 
-desigualdades_an %>%
+```
+
+# Desigualdades
+```{r, echo=F}
+figura2_an <-
+desigualdades_ca %>%
   filter(fr =="diabetes", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
@@ -86,13 +92,33 @@ desigualdades_an %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura2_an
 
 ```
 
 ### Hombres
 
+# Prevalencias
 ```{r, echo=F}
 
+figura3_an <-
+prevalencias_ca %>%
+  filter(sexo=="Hombre") %>%
+  ggplot(aes(x=encuesta, y=diabetes*100, color=educa, 
+             ymin=diabetes_low*100, ymax=diabetes_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes en hombres (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura3_an
+```
+
+# Desigualdades
+```{r, echo=F}
+figura4_an <-
 desigualdades_ca %>%
   filter(fr =="diabetes", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -108,11 +134,29 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
-
+figura4_an
 ```
 
 ### Mujeres
 
+#Prevalencias
+```{r}
+figura5_an <-
+prevalencias_ca %>%
+  filter(sexo=="Mujeres") %>%
+  ggplot(aes(x=encuesta, y=diabetes*100, color=educa, 
+             ymin=diabetes_low*100, ymax=diabetes_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes en hombres (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura5_an
+```
+
+#Desigualdades
 ```{r, echo=F}
 
 desigualdades_ca %>%

@@ -572,8 +572,28 @@ figura24_an
 
 ## Global
 
-```{r, echo=F}
+### Prevalencias
+``` {r, echo=F}
+figura25_an <-
+prevalencias_ca %>%
+  filter(sexo=="Overall", encuesta!="2009") %>%
+  ggplot(aes(x=encuesta, y=sedentario*100, color=educa, 
+             ymin=sedentario_low*100, ymax=sedentario_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura25_an
 
+```
+
+### Desigualdades relativas
+
+```{r, echo=F}
+figura26_an <-
 desigualdades_ca %>%
   filter(fr =="sedentario", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -589,12 +609,31 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura26_an
 ```
 
 ## Hombres
 
+### Prevalencias
 ```{r, echo=F}
+figura27_an <-
+prevalencias_ca %>%
+  filter(sexo=="Hombre", encuesta!="2009") %>%
+  ggplot(aes(x=encuesta, y=sedentario*100, color=educa, 
+             ymin=sedentario_low*100, ymax=sedentario_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura27_an
+```
 
+### Desigualdades relativas
+```{r, echo=F}
+figura28_an <-
 desigualdades_ca %>%
   filter(fr =="sedentario", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -610,15 +649,34 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura28_an
 
 ```
 
 ## Mujeres
 
+### Prevalencias
 ```{r, echo=F}
+figura29_an <-
+prevalencias_ca %>%
+  filter(sexo=="Mujeres", encuesta!="2009") %>%
+  ggplot(aes(x=encuesta, y=sedentario*100, color=educa, 
+             ymin=sedentario_low*100, ymax=sedentario_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura29_an
+```
 
+### Desigualdades relativas
+```{r, echo=F}
+figura30_an <-
 desigualdades_ca %>%
-  filter(fr =="sedentario", sexo=="Mujeres") %>%
+  filter(fr =="sedentario", sexo=="Mujeres", X<2704) %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
   geom_hline(yintercept = 1, lty = 2) +
   geom_ribbon(alpha=0.3, aes(fill=fr)) +
@@ -632,15 +690,32 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
-
+figura30_an
 ```
 
 # Tabaco {.tabset .tabset-fade .tabset-pills}
 
 ## Global
 
+### Prevalencias
 ```{r, echo=F}
-
+figura31_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Overall") %>%
+  ggplot(aes(x=encuesta, y=smoking*100, color=educa, 
+             ymin=smoking_low*100, ymax=smoking_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura31_an
+```
+### Desigualdades relativas
+```{r, echo=F}
+figura32_an <-
 desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -656,12 +731,32 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura32_an
 ```
 
 ## Hombres
 
+# Prevalencias
 ```{r, echo=F}
+figura33_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Hombre") %>%
+  ggplot(aes(x=encuesta, y=smoking*100, color=educa, 
+             ymin=smoking_low*100, ymax=smoking_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura33_an
 
+```
+
+### Desigualdades relativas
+```{r, echo=F}
+figura34_an <-
 desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -677,13 +772,31 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
-
+figura34_an
 ```
 
 ## Mujeres
 
+### Prevalencias
 ```{r, echo=F}
+figura35_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Hombre") %>%
+  ggplot(aes(x=encuesta, y=smoking*100, color=educa, 
+             ymin=smoking_low*100, ymax=smoking_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura35_an
+```
 
+### Desigualdades relativas
+```{r, echo=F}
+figura36_an <-
 desigualdades_ca %>%
   filter(fr =="smoking", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -699,6 +812,7 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura36_an
 
 ```
 
@@ -706,8 +820,27 @@ desigualdades_ca %>%
 
 ## Global
 
+### Prevalencias
 ```{r, echo=F}
+figura37_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Overall") %>%
+  ggplot(aes(x=encuesta, y=alcohol*100, color=educa, 
+             ymin=alcohol_low*100, ymax=alcohol_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura37_an
+```
 
+
+### Desigualdades relativas
+```{r, echo=F}
+figura38_an <-
 desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Overall") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -723,12 +856,32 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
+figura38_an
 ```
 
 ## Hombres
 
+### Prevalencias
 ```{r, echo=F}
+figura39_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Hombre") %>%
+  ggplot(aes(x=encuesta, y=alcohol*100, color=educa, 
+             ymin=alcohol_low*100, ymax=alcohol_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura39_an
 
+```
+
+### Desigualdades relativas
+```{r, echo=F}
+figura40_an <-
 desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Hombre") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -744,13 +897,32 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
-
+figura40_an
 ```
 
 ## Mujeres
 
+### Prevalencias
 ```{r, echo=F}
+figura41_an <-
+  prevalencias_ca %>%
+  filter(sexo=="Mujeres") %>%
+  ggplot(aes(x=encuesta, y=alcohol*100, color=educa, 
+             ymin=alcohol_low*100, ymax=alcohol_upp*100))+
+  geom_point()+
+  geom_errorbar(alpha=0.3)+
+  geom_line()+
+  #scale_x_date(date_labels = "%Y")+
+  labs(x="Año", y="Prevalencia de diabetes (IC 95%)")+
+  guides(color=guide_legend(title="Nivel educativo"))+
+  theme_bw()
+figura41_an
 
+```
+
+### Desigualdades relativas
+```{r, echo=F}
+figura42_an <-
 desigualdades_ca %>%
   filter(fr =="alcohol", sexo=="Mujeres") %>%
   ggplot(aes(x=as.Date(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci, group=fr)) +
@@ -766,5 +938,5 @@ desigualdades_ca %>%
                   axis.text.x = element_text(angle = 90),
                   strip.text = element_text(size=20, face="bold", color="black"),
                   legend.position="none")
-
+figura42_an
 ```

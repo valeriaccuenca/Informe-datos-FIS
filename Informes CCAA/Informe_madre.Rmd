@@ -43,11 +43,8 @@ load("rii_informes.RData")
 ```{r, echo=F}
 fig_1 <-  
   prevalencias %>%
-<<<<<<< HEAD
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-=======
   filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
->>>>>>> d5f32f4765664c927fe1371f991db45d3338587d
   ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+

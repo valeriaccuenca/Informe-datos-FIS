@@ -7,19 +7,11 @@ library(ggplot2)
 rm(list=ls())
 
 
-<<<<<<< HEAD
+
 setwd(paste0(getwd(),"/Informes CCAA")) #Así nos carga la misma carpeta a todas, porque si no cada uno tiene su ruta específica
 
 load("RII_informes.RData")
 load("prevalencias_informes.RData")
-=======
-load("Informes CCAA/RII_informes.RData")
-load("Informes CCAA/prevalencias_informes.RData")
->>>>>>> d5f32f4765664c927fe1371f991db45d3338587d
-
-rii <- left_join(rii, nombre, by="abreviatura")
-prevalencias <- left_join(prevalencias, nombre, by="abreviatura")
-
 
 ## Creamos un objeto con las CCAA con los nombres 
 

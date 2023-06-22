@@ -11,17 +11,12 @@ setwd(paste0(getwd(),"/Informes CCAA")) #Así nos carga la misma carpeta a todas
 load("RII_informes.RData")
 load("prevalencias_informes.RData")
 
-## Creamos un objeto con las CCAA con los nombres 
+## Creamos un objeto con las CCAA con los nombres para el bucle
 
 nombre_ca <- c("España","Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
                  "Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña",
                  "Comunitat Valenciana", "Extremadura", "Galicia", "La Rioja", "Comunidad de Madrid",
                  "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco")
-
-abr_ccaa <- c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
-              "RI", "MD", "MC", "NC", "PV")
-
-
 
 ## Corremos el script de rmarkdown que contiene el bucle para que salgan los informes en html
 
@@ -30,5 +25,10 @@ for (v in 2:length(nombre_ca)) {
   print(paste0("Informe ", nombre_ca[v]))
   rmarkdown::render(input = paste0("informe_madre.Rmd"),
                     output_file = paste0("Informe_", nombre_ca[v], ".html"))
+  
+  print(paste0("PPT ", nombre_ca[v]))
+  rmarkdown::render(input = paste0("ppt_figuras.Rmd"),
+                    output_dir = "PPT CCAA",
+                    output_file = paste0(nombre_ca[v], ".pptx"))
   
 }

@@ -1,0 +1,256 @@
+---
+title: "Prevalencia y desigualdades sociales en factores de riesgo de enfermedad cardiovascular - `r nombre_ca[v]`"
+subtitle: "Proyecto PI21/01868" 
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dev = "svg",
+  fig.width = 14,
+  fig.height = 10
+)
+```
+
+# Diabetes
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_1 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_2 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Hipertensión arterial
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_3 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_4 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Hipercolesterolemia
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_5 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_6 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Obesidad
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_7 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_8 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Sedentarismo
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_9 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_10 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Tabaquismo
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_11 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_12 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Consumo de alcohol
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_13 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_14 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+# Alimentación
+
+## Prevalencias
+
+```{r, echo=F}
+
+fig_15 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_16 + theme(text = element_text(size = 18),
+              axis.text.y = element_text(size = 18),
+              axis.title.y = element_text(size = 18),
+              axis.title.x = element_text(size = 18),
+              axis.text.x = element_text(size = 14),
+              legend.text = element_text(size = 18),
+              strip.text = element_text(size = 18))
+
+```

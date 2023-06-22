@@ -76,6 +76,7 @@ rii <- desigualdades_rii_spain %>%
 rii$ccaa <- as.factor(rii$ccaa)
 
 save(rii, file = "Luis_estandarizacion/RII_informes.RData")
+save(rii, file = "Informes CCAA/RII_informes.RData")
 
 rm(desigualdades_rii_ccaa, desigualdades_rii_spain)
 
@@ -84,14 +85,14 @@ rm(desigualdades_rii_ccaa, desigualdades_rii_spain)
   
 prevalencias_spain <- prevalencias_spain %>% 
   select(-c(X)) %>% 
-  mutate(sexo=(case_when(sexo==0~"Mujeres", sexo==1~"Hombres", sexo=="Overall"~"Overall")),
+  mutate(sexo=(case_when(sexo==0~"Mujeres", sexo==1~"Hombres", sexo=="Overall"~"Global")),
          abreviatura="ES",
          nombre_notilde="Espana",
          ccaa=0)
   
 prevalencias_ccaa <- prevalencias_ccaa %>% 
   select(-c(X, id_mapa, nombre)) %>% 
-  mutate(sexo=(case_when(sexo==0~"Mujeres", sexo==1~"Hombres", sexo=="Overall"~"Overall")))
+  mutate(sexo=(case_when(sexo==0~"Mujeres", sexo==1~"Hombres", sexo=="Overall"~"Global")))
 
 prevalencias <- prevalencias_spain %>% 
   rbind(prevalencias_ccaa) %>% 
@@ -106,6 +107,7 @@ prevalencias <- prevalencias %>%
   filter(encuesta != 2001)
 
 save(prevalencias, file = "Luis_estandarizacion/prevalencias_informes.RData")
+save(prevalencias, file = "Informes CCAA/prevalencias_informes.RData")
 
 rm(ccaa_nombres, prevalencias_ccaa, prevalencias_spain, sedentarismo_prevalencias, sedentarismo_rii)
 
@@ -127,7 +129,9 @@ prevalencias <- prevalencias %>%
   left_join(ccaa)
 
 save(prevalencias, file = "Luis_estandarizacion/prevalencias_informes.RData")
+save(prevalencias, file = "Informes CCAA/prevalencias_informes.RData")
 save(rii, file = "Luis_estandarizacion/RII_informes.RData")
+save(rii, file = "Informes CCAA/RII_informes.RData")
 
 
 #Código diseño figuras

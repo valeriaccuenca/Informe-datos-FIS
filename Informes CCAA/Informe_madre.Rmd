@@ -1,6 +1,6 @@
 ---
-title: "Informe desigualdades sociales relativas en salud - `r nombre_ca[v]`"
-subtitle: "Proyecto FIS XX"
+title: "Informe desigualdades sociales en factores de riesgo de enfermedad cardiovascular - `r nombre_ca[v]`"
+subtitle: "Proyecto PI21/01868"
 output: 
   html_document:
     toc: true
@@ -9,7 +9,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width = 8,
+  fig.height = 6)
 library(tidyverse)
 library(readxl)
 library(ggplot2)
@@ -24,9 +26,16 @@ font-family: Arial;
 }
 </style>
 ```
-El presente informe muestra la evolución de las desigualdades sociales relativas, en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular en `r nombre_ca[v]` desde el año 2001 hasta el 2020, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
 
-Este informe se enmarca dentro del Proyecto FIS XX financiado por el Instituto de Salud Carlos III
+El presente informe muestra la evolución de la prevalencia y el índice relativo de desigualdad (RII por sus siglas en inglés), en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular (FRECV) en `r nombre_ca[v]` desde el año 2001 hasta el 2020*, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
+
+Los FRECV incluidos en este informe son la diabetes, la hipertensión arterial, la hipercolesterolemia, la obesidad, el sedentarismo, el tabaquismo, el consumo de alcohol y la alimentación (ver definiciones en la sección "Nota metodológica" al final del informe)
+
+Este informe se enmarca dentro del Proyecto PI21/01868 financiado por el Instituto de Salud Carlos III y cofinanciado por la Unión Europea.
+
+***
+
+*_Los datos de los FRECV referidos a los años 2001 y 2009 fueron omitidos de las gráficas debido a cambios en las preguntas de las encuestas que dificultaron la intepretación de los resultados_
 
 ```{r, echo=F}
 
@@ -62,7 +71,7 @@ fig_1 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
   labs( title = "Prevalencia de diabetes por nivel educativo y sexo en el período 2003-2020")
@@ -97,10 +106,10 @@ fig_2 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
 
 fig_2
 
@@ -132,10 +141,10 @@ fig_3 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de hipertensión arterial, por nivel educativo y sexo, \n en el período 2003-2020")
+  labs( title = "Prevalencia de hipertensión arterial por nivel educativo y sexo \nen el período 2003-2020")
 
 fig_3
 
@@ -166,16 +175,16 @@ fig_4 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en hipertensión arterial, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en hipertensión arterial por sexo \nen el período 2003-2020")
 
 fig_4
 
 ```
 
-# Colesterol {.tabset .tabset-fade .tabset-pills}
+# Hipercolesterolemia {.tabset .tabset-fade .tabset-pills}
 
 ## Prevalencias
 
@@ -189,7 +198,7 @@ fig_5 <-
   facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de colesterol (95% IC)")+
+  labs(x="", y="Prevalencia de hipercolesterolemia (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
@@ -200,10 +209,10 @@ fig_5 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de colesterol por nivel educativo y sexo en el período 2003-2020")
+  labs( title = "Prevalencia de hipercolesterolemia por nivel educativo y sexo en el período 2003-2020")
 
 fig_5
 
@@ -234,10 +243,10 @@ fig_6 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en colesterol, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en hipercolesterolemia por sexo \nen el período 2003-2020")
 
 fig_6
 
@@ -268,7 +277,7 @@ fig_7 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
   labs( title = "Prevalencia de obesidad por nivel educativo y sexo en el período 2003-2020")
@@ -302,10 +311,10 @@ fig_8 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en obesidad, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en obesidad por sexo \nen el período 2003-2020")
 
 fig_8
 
@@ -336,7 +345,7 @@ fig_9 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
   labs( title = "Prevalencia de sedentarismo por nivel educativo y sexo en el período 2003-2020")
@@ -370,10 +379,10 @@ fig_10 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en sedentarismo, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en sedentarismo por sexo \nen el período 2003-2020")
 
 fig_10
 
@@ -404,7 +413,7 @@ fig_11 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
   labs( title = "Prevalencia de tabaquismo por nivel educativo y sexo en el período 2003-2020")
@@ -438,16 +447,16 @@ fig_12 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en tabaquismo, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en tabaquismo por sexo \nen el período 2003-2020")
 
 fig_12
 
 ```
 
-# Consumo de Alcohol {.tabset .tabset-fade .tabset-pills}
+# Consumo de alcohol {.tabset .tabset-fade .tabset-pills}
 
 ## Prevalencias
 
@@ -472,10 +481,10 @@ fig_13 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de consumo de alcohol por nivel educativo y sexo \n en el período 2003-2020")
+  labs( title = "Prevalencia de consumo de alcohol por nivel educativo y sexo \nen el período 2003-2020")
 
 fig_13
 
@@ -506,10 +515,10 @@ fig_14 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en consumo de alcohol, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en consumo de alcohol por sexo \nen el período 2003-2020")
 
 fig_14
 
@@ -540,10 +549,10 @@ fig_15 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de consumo de fruta y verdura por nivel educativo y sexo \n en el período 2003-2020")
+  labs( title = "Prevalencia de consumo de fruta y verdura por nivel educativo y sexo \nen el período 2003-2020")
 
 fig_15
 
@@ -574,7 +583,7 @@ fig_16 <-
         legend.text=element_text(size=10, color="black"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        axis.text.x = element_text(color="black", size=10),
+        axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
   labs( title = "Índice Relativo de Desigualdad (RII) en consumo de fruta y verdura, por sexo, \n en el período 2003-2020")
@@ -582,3 +591,34 @@ fig_16 <-
 fig_16
 
 ```
+#
+
+***
+# Nota metodológica
+
+A continuación, se detalla la información acerca de las variables relacionadas con los factores de riesgo de enfermedad cardiovascular incluidos, así como una breve explicación sobre los cálculos realizados para las gráficas presentadas en este informe.
+
+
+<ins>Definiciones de los FRECV</ins>
+
+* __Diabetes__: personas que respondieron afirmativamente a las preguntas "¿Ha tenido alguna vez diabetes?" o "¿Le han diagnosticado alguna vez diabetes?".
+
+* __Hipertensión arterial__: personas que respondieron afirmativamente a las preguntas "¿Ha tenido alguna vez hiptertensión?" o "¿Le han diagnosticado alguna vez hipertensión?".
+
+* __Hipercolesterolemia__: personas que respondieron afirmativamente a las preguntas "¿Ha tenido alguna vez hipercolesterolemia?" o "¿Le han diagnosticado alguna vez hipercolesterolemia?".
+
+* __Obesidad__: personas con un índice de masa corporal (IMC) $\ge$30 a partir de la altura y el peso autorreportados en la encuesta.
+
+* __Sedentarismo__: personas que respondieron "No hago ningún tipo de ejercicio" a la pregunta "¿Cuál de las siguientes opciones describe mejor la frecuencia con la que realiza actividad física en su tiempo libre?" (encuesta 2003), personas que respondieron "No, habitualmente no realizo actividad física" a la pregunta "¿Usted realiza en su tiempo libre actividad física como caminar, deporta, gimnasia, etc.?" (encuesta 2006), y personas que respondieron "No realizo ningún tipo de ejercicio" a la pregunta "¿Cuál de las siguientes opciones describe mejor la frecuencia con la que realiza actividad física en su tiempo libre?" (encuestas 2011-2020).
+
+* __Tabaquismo__: personas que respondieron "Sí, diariamente/Sí, pero no diariamente" a la pregunta "¿Fuma usted actualmente?".
+
+* __Consumo de alcohol__: personas que respondieron afirmativamente a la pregunta ¿"Ha consumido alcohol en los últimos 12 meses?" (encuestas 2003-2011) y personas que respondieron "Diariamente/5-6 veces por semana/3-4 veces por semana/1-2 veces por semana/Una vez al mes/Menos de una vez al mes" a la pregunta "En los últimos 12 meses, ¿cuál ha sido la frecuencia de consumo de alcohol de cualquier tipo? (encuestas 2014-2020).
+
+* __Alimentación__: personas que reportaron consumir fruta y verdura (independientemente de la frecuencia) en la pregunta "¿Con qué frecuencia consume los siguientes alimentos?"
+
+
+<ins>Análisis estadístico</ins>
+
+Se calculó la prevalencia para cada uno de los FRECV y las encuestas de manera global y desagregada por sexo. Para el cálculo del índice relativo de desigualdad (RII), se realizaron modelos multiplicativos de Poisson multinivel con el individuo (primer nivel) anidado en cada comunidad autónoma (segundo nivel) y en cada encuesta (tercer nivel), incluyendo una pendiente aleatoria en estos dos últimos niveles. 
+

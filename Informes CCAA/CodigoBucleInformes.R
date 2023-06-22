@@ -7,10 +7,8 @@ library(ggplot2)
 rm(list=ls())
 
 
-setwd("C:/Users/luis_/OneDrive - Universidad de Alcala/Investigacion/FIS_CVDinequities/R/Informe-datos-FIS/Informes CCAA")
-
-load("RII_informes.RData")
-load("prevalencias_informes.RData")
+load("Informes CCAA/RII_informes.RData")
+load("Informes CCAA/prevalencias_informes.RData")
 
 
 

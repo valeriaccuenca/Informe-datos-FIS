@@ -1,0 +1,181 @@
+---
+title: "Informe desigualdades sociales relativas en salud - Andalucía"
+subtitle: "Proyecto FIS XX"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(ggplot2)
+setwd(getwd())
+
+```
+
+```{=html}
+<style>
+body, p {
+font-family: Arial;
+}
+</style>
+```
+El presente informe muestra la evolución de las desigualdades sociales relativas, en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular en Andalucía desde el año 2001 hasta el 2020, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
+
+Este informe se enmarca dentro del Proyecto FIS XX financiado por XX
+
+```{r, echo=F}
+
+load("prevalencias_informes.RData")
+load("rii_informes.RData")
+
+```
+
+# Diabetes {.tabset .tabset-fade .tabset-pills}
+
+
+## Prevalencias
+
+```{r, echo=F}
+fig_1 <-  
+  prevalencias %>%
+  mutate(filtro=case_when((nombre_notilde=="Espana" | nombre_notilde=="Andalucia")~1),
+         Nombre="Andalucía") %>%
+  filter(filtro==1) %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
+  geom_line(aes(color=as.factor(education_3)))+  
+  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
+  facet_grid(rows = vars(nombre_notilde),cols = vars(sexo))+
+  scale_y_continuous(breaks = c(20, 40, 60, 100))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
+  scale_fill_discrete(name="Nivel Educativo",
+                      labels=c("Bajo", "Medio", "Alto"))+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=10),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Prevalencia de diabetes por nivel educativo y sexo en el período 2003-2020")
+
+fig_1
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_2 <-  
+  rii %>% 
+  mutate(filtro=case_when((nombre_notilde=="Espana" | nombre_notilde=="Andalucia")~1)) %>%
+  filter(fr=="diabetes", filtro==1) %>% 
+  ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=abreviatura) +
+  geom_hline(yintercept = 1, lty=2)+
+  geom_ribbon(alpha=0.3, aes(fill=abreviatura))+
+  facet_grid(cols = vars(sexo))+
+  geom_line(aes(color=abreviatura)) +
+  scale_y_continuous(trans="log",
+                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="RII (95% CI)")+
+  scale_fill_discrete(name="")+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=10),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Índice Relativo de Desigualdad (IRR) en diabetes por sexo en el período 2003-2020")
+
+fig_2
+
+```
+
+
+# Hipertensión arterial {.tabset .tabset-fade .tabset-pills}
+
+
+## Prevalencias
+
+```{r, echo=F}
+fig_3 <-  
+  prevalencias %>%
+  mutate(filtro=case_when((nombre_notilde=="Espana" | nombre_notilde=="Andalucia")~1),
+         Nombre="Andalucía") %>%
+  filter(filtro==1) %>% 
+  ggplot(aes(x=encuesta, y=(hta*100), ymin=(hta_low*100), ymax=(hta_upp*100), group=education_3)) +
+  geom_line(aes(color=as.factor(education_3)))+  
+  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
+  facet_grid(rows = vars(sexo),cols = vars(nombre_notilde))+
+  scale_y_continuous(breaks = c(20, 40, 60, 100))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="Prevalencia de hipertensión arterial (95% IC)")+
+  scale_fill_discrete(name="Nivel Educativo",
+                      labels=c("Bajo", "Medio", "Alto"))+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=10),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Prevalencia de hipertensión arterial por nivel educativo y sexo en el período 2003-2020")
+
+fig_3
+
+```
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_4 <-  
+  rii %>% 
+  mutate(filtro=case_when((nombre_notilde=="Espana" | nombre_notilde=="Andalucia")~1)) %>%
+  filter(fr=="hta", filtro==1) %>% 
+  ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=abreviatura) +
+  geom_hline(yintercept = 1, lty=2)+
+  geom_ribbon(alpha=0.3, aes(fill=abreviatura))+
+  facet_grid(cols = vars(sexo))+
+  geom_line(aes(color=abreviatura)) +
+  scale_y_continuous(trans="log",
+                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="RII (95% CI)")+
+  scale_fill_discrete(name="")+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=10),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Índice Relativo de Desigualdad (IRR) en hipertensión arterial por sexo en el período 2003-2020")
+
+fig_4
+
+```

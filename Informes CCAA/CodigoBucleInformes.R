@@ -6,8 +6,6 @@ library(ggplot2)
 
 rm(list=ls())
 
-
-
 setwd(paste0(getwd(),"/Informes CCAA")) #Así nos carga la misma carpeta a todas, porque si no cada uno tiene su ruta específica
 
 load("RII_informes.RData")

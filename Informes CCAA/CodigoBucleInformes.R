@@ -28,7 +28,7 @@ abr_ccaa <- c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", 
 for (v in 2:length(nombre_ca)) {
   
   print(paste0("Informe ", nombre_ca[v]))
-  rmarkdown::render(input = paste0("informe_madre.Rmd"),
+  rmarkdown::render(input = paste0("Informe_madre.Rmd"),
                     output_file = paste0("Informe_", nombre_ca[v], ".html"))
   
 }
@@ -38,7 +38,7 @@ for (v in 2:length(nombre_ca)) {
 for (v in 2:length(nombre_ca)) {
   
   print(paste0("Informe ", nombre_ca[v]))
-  rmarkdown::render(input = paste0("informe_madre_pptx.Rmd"),
-                    output_file = paste0("Informe_", nombre_ca[v], "pptx"))
+  rmarkdown::render(input = paste0("Informe_madre_pptx.Rmd"),
+                    output_file = paste0("Informe_", nombre_ca[v], ".pptx"))
   
 }

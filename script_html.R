@@ -20,9 +20,9 @@ rii_spain <- read.csv("rii_spain.csv")
 ## Creamos un objeto con las CCAA con los nombres como la variable abreviatura y añadimos el nombre oficial del INE
 ## para hacer merge (usaremos el nombre oficial para el bucle de informes)
 
-ccaa <- data.frame(abreviatura = c("AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
+nombre <- data.frame(abreviatura = c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
                                    "RI", "MD", "MC", "NC", "PV"),
-                   nombre_ccaa = c("Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
+                   nombre = c("España", "Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
                                    "Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña",
                                    "Comunitat Valenciana", "Extremadura", "Galicia", "La Rioja", "Comunidad de Madrid",
                                    "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco"))

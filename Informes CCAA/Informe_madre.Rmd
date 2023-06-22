@@ -1,5 +1,5 @@
 ---
-title: "Informe desigualdades sociales relativas en salud - nombre_ccaa[v]"
+title: "Informe desigualdades sociales relativas en salud - `r nombre_ca[v]`"
 subtitle: "Proyecto FIS XX"
 output: 
   html_document:
@@ -24,7 +24,7 @@ font-family: Arial;
 }
 </style>
 ```
-El presente informe muestra la evolución de las desigualdades sociales relativas, en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular en nombre_ccaa[v] desde el año 2001 hasta el 2020, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
+El presente informe muestra la evolución de las desigualdades sociales relativas, en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular en `r nombre_ca[v]` desde el año 2001 hasta el 2020, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
 
 Este informe se enmarca dentro del Proyecto FIS XX financiado por el Instituto de Salud Carlos III
 
@@ -43,7 +43,7 @@ load("rii_informes.RData")
 ```{r, echo=F}
 fig_1 <-  
   prevalencias %>%
-  filter(nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -77,7 +77,7 @@ fig_1
 
 fig_2 <-  
   rii %>%
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -113,7 +113,7 @@ fig_2
 ```{r, echo=F}
 fig_3 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(hta*100), ymin=(hta_low*100), ymax=(hta_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -146,7 +146,7 @@ fig_3
 
 fig_4 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -181,7 +181,7 @@ fig_4
 ```{r, echo=F}
 fig_5 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(col*100), ymin=(col_low*100), ymax=(col_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -214,7 +214,7 @@ fig_5
 
 fig_6 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -249,7 +249,7 @@ fig_6
 ```{r, echo=F}
 fig_7 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(obesity*100), ymin=(obesity_low*100), ymax=(obesity_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -282,7 +282,7 @@ fig_7
 
 fig_8 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -317,7 +317,7 @@ fig_8
 ```{r, echo=F}
 fig_9 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(Sedentarismo*100), ymin=(sedentarismo_low*100), ymax=(sedentarismo_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -350,7 +350,7 @@ fig_9
 
 fig_10 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -385,7 +385,7 @@ fig_10
 ```{r, echo=F}
 fig_11 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(smoking*100), ymin=(smoking_low*100), ymax=(smoking_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -418,7 +418,7 @@ fig_11
 
 fig_12 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -453,7 +453,7 @@ fig_12
 ```{r, echo=F}
 fig_13 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(alcohol*100), ymin=(alcohol_low*100), ymax=(alcohol_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -486,7 +486,7 @@ fig_13
 
 fig_14 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -521,7 +521,7 @@ fig_14
 ```{r, echo=F}
 fig_15 <-  
   prevalencias %>%
-  filter(nombre_ccaa=="España" | nombre_ccaa == nombre_ccaa[v]) %>% 
+  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=encuesta, y=(fruta_verdura*100), ymin=(fruta_verdura_low*100), ymax=(fruta_verdura_upp*100), group=education_3)) +
   geom_line(aes(color=as.factor(education_3)))+  
   geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
@@ -554,7 +554,7 @@ fig_15
 
 fig_16 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa=="España" | nombre_ccaa==nombre_ccaa[v]) %>% 
+  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+

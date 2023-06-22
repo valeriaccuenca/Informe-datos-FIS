@@ -32,3 +32,13 @@ for (v in 2:length(nombre_ca)) {
                     output_file = paste0("Informe_", nombre_ca[v], ".html"))
   
 }
+
+## Esto es una prueba: corremos otro script que contiene el bucle para que salgan los informes en pptx 
+
+for (v in 2:length(nombre_ca)) {
+  
+  print(paste0("Informe ", nombre_ca[v]))
+  rmarkdown::render(input = paste0("informe_madre_pptx.Rmd"),
+                    output_file = paste0("Informe_", nombre_ca[v], "pptx"))
+  
+}

@@ -23,12 +23,22 @@ nombre_ca <- c("España","Andalucía", "Aragón", "Principado de Asturias", "Ill
 for (v in 2:length(nombre_ca)) {
   
   print(paste0("Informe ", nombre_ca[v]))
-  rmarkdown::render(input = paste0("informe_madre.Rmd"),
+  rmarkdown::render(input = paste0("Informe_madre.Rmd"),
                     output_file = paste0("Informe_", nombre_ca[v], ".html"))
   
   print(paste0("PPT ", nombre_ca[v]))
   rmarkdown::render(input = paste0("ppt_figuras.Rmd"),
                     output_dir = "PPT CCAA",
                     output_file = paste0(nombre_ca[v], ".pptx"))
+  
+}
+
+## Esto es una prueba: corremos otro script que contiene el bucle para que salgan los informes en pptx 
+
+for (v in 2:length(nombre_ca)) {
+  
+  print(paste0("Informe ", nombre_ca[v]))
+  rmarkdown::render(input = paste0("Informe_madre_pptx.Rmd"),
+                    output_file = paste0("Informe_", nombre_ca[v], ".pptx"))
   
 }

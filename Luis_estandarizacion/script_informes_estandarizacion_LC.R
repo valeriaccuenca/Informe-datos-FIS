@@ -7,7 +7,6 @@ library(lubridate)
 library(lme4)
 library(broom.mixed)
 library(glmmTMB)
-library(mixedup)
 library(tidyverse)
 library(openxlsx)
 library(haven)
@@ -34,15 +33,12 @@ theme_fis<-  theme(axis.text=element_text(size=10, color="black"),
                    axis.text.y = element_text(color="black", size=10),
                    legend.position="bottom")
 
-setwd("C:/Users/Luis Cereijo/OneDrive - Universidad de Alcala/Investigacion/FIS_CVDinequities/R/Informe FIS/Luis_estandarizacion")
-
-
-load("sedentarismo_prevalencias_informes.RData")
-load("sedentarismo_rii_informes.RData")
-desigualdades_rii_spain <- read.csv("rii_spain.csv")
-desigualdades_rii_ccaa <- read.csv("rii_ccaa.csv")
-prevalencias_spain <- read.csv("prevalencias_spain.csv")
-prevalencias_ccaa <- read.csv("prevalencias_ccaa.csv")
+load("Luis_estandarizacion/sedentarismo_prevalencias_informes.RData")
+load("Luis_estandarizacion/sedentarismo_rii_informes.RData")
+desigualdades_rii_spain <- read.csv("Luis_estandarizacion/rii_spain.csv")
+desigualdades_rii_ccaa <- read.csv("Luis_estandarizacion/rii_ccaa.csv")
+prevalencias_spain <- read.csv("Luis_estandarizacion/prevalencias_spain.csv")
+prevalencias_ccaa <- read.csv("Luis_estandarizacion/prevalencias_ccaa.csv")
 
 
 #Creamos base de datos conjunta de RII para informes#
@@ -79,7 +75,7 @@ rii <- desigualdades_rii_spain %>%
 
 rii$ccaa <- as.factor(rii$ccaa)
 
-save(rii, file = "RII_informes.RData")
+save(rii, file = "Luis_estandarizacion/RII_informes.RData")
 
 rm(desigualdades_rii_ccaa, desigualdades_rii_spain)
 
@@ -109,9 +105,30 @@ prevalencias <- prevalencias %>%
   filter(encuesta != 2009) %>% 
   filter(encuesta != 2001)
 
-save(prevalencias, file = "prevalencias_informes.RData")
+save(prevalencias, file = "Luis_estandarizacion/prevalencias_informes.RData")
 
 rm(ccaa_nombres, prevalencias_ccaa, prevalencias_spain, sedentarismo_prevalencias, sedentarismo_rii)
+
+#################
+## MERGEO VARIABLES PARA QUE CORRA EL BUCLE
+#################
+
+ccaa <- data.frame(abreviatura = c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
+                                   "RI", "MD", "MC", "NC", "PV"),
+                   nombre_ccaa = c("España", "Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
+                                   "Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña",
+                                   "Comunitat Valenciana", "Extremadura", "Galicia", "La Rioja", "Comunidad de Madrid",
+                                   "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco"))
+
+rii <- rii %>% 
+left_join(ccaa)
+
+prevalencias <- prevalencias %>% 
+  left_join(ccaa)
+
+save(prevalencias, file = "Luis_estandarizacion/prevalencias_informes.RData")
+save(rii, file = "Luis_estandarizacion/RII_informes.RData")
+
 
 #Código diseño figuras
 

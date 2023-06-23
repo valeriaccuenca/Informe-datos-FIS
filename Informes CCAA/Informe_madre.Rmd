@@ -156,7 +156,7 @@ fig_3
 
 fig_4 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="hta", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -224,7 +224,7 @@ fig_5
 
 fig_6 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="col", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -292,7 +292,7 @@ fig_7
 
 fig_8 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="obesity", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -360,7 +360,7 @@ fig_9
 
 fig_10 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="Sedentarismo", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -428,7 +428,7 @@ fig_11
 
 fig_12 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="smoking", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -496,7 +496,7 @@ fig_13
 
 fig_14 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="alcohol", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
@@ -564,7 +564,7 @@ fig_15
 
 fig_16 <-  
   rii %>% 
-  filter(fr=="diabetes", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+  filter(fr=="food", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
   geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+

@@ -1,0 +1,232 @@
+---
+title: "Informe desigualdades sociales en factores de riesgo de enfermedad cardiovascular - Canarias"
+subtitle: "Proyecto PI21/01868"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width = 8,
+  fig.height = 6)
+library(tidyverse)
+library(readxl)
+library(ggplot2)
+setwd(getwd())
+
+```
+
+```{=html}
+<style>
+body, p {
+font-family: Arial;
+}
+</style>
+```
+
+El presente informe muestra la evolución de la prevalencia y el índice relativo de desigualdad (RII por sus siglas en inglés), en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular (FRECV) en `r nombre_ca[v]` desde el año 2001 hasta el 2020*, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
+
+Los FRECV incluidos en este informe son la diabetes, la hipertensión arterial, la hipercolesterolemia, la obesidad, el sedentarismo, el tabaquismo, el consumo de alcohol y la alimentación (ver definiciones en la sección "Nota metodológica" al final del informe)
+
+Este informe se enmarca dentro del Proyecto PI21/01868 financiado por el Instituto de Salud Carlos III y cofinanciado por la Unión Europea.
+
+***
+
+*_Los datos de los FRECV referidos a los años 2001 y 2009 fueron omitidos de las gráficas debido a cambios en las preguntas de las encuestas que dificultaron la intepretación de los resultados_
+
+```{r, echo=F}
+
+load("prevalencias_informes.RData")
+load("rii_informes.RData")
+
+```
+
+# Diabetes {.tabset .tabset-fade .tabset-pills}
+
+
+## Prevalencias separados
+
+
+```{r, echo=F}
+fig_1 <-  
+  prevalencias %>%
+  filter(nombre_ccaa == "España" | nombre_ccaa == "País Vasco") %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
+  geom_line(aes(color=as.factor(education_3)))+  
+  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
+  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  scale_y_continuous(breaks = c(20, 40, 60, 100))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
+  scale_fill_discrete(name="Nivel Educativo",
+                      labels=c("Bajo", "Medio", "Alto"))+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Prevalencia (con ribbon) de diabetes por nivel educativo y sexo en el período 2003-2020")
+
+fig_1
+
+```
+
+
+  
+```{r, echo=F}
+fig_2 <-  
+  prevalencias %>%
+  filter(nombre_ccaa == "España" | nombre_ccaa == "País Vasco") %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
+  geom_line(aes(color=as.factor(education_3)))+
+  geom_errorbar(alpha=0.3, aes(color=as.factor(education_3)))+
+  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  scale_y_continuous(breaks = c(20, 40, 60, 100))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
+  scale_fill_discrete(name="Nivel Educativo",
+                      labels=c("Bajo", "Medio", "Alto"))+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Prevalencia (con errorbar) de diabetes por nivel educativo y sexo en el período 2003-2020")
+
+fig_2
+
+```  
+
+Creo que es bastante más "sucio" los errorbar que el ribbon. Demasiadas líneas que meten mucho ruido. Teniendo en cuenta para quien va dirigido, aunque me quedaría con la opción del ribbon, me plantearía antes eliminar los IC que incluir los errorbar.
+
+## Prevalencias juntos
+
+```{r, echo=F}
+fig_1 <-  
+  prevalencias %>%
+  filter(nombre_ccaa == "España" | nombre_ccaa == "País Vasco") %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group= interaction(education_3, nombre_ccaa))) +
+  geom_line(aes(color=as.factor(education_3)))+
+  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
+  scale_y_continuous(breaks = c(20, 40, 60, 100))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
+  scale_fill_discrete(name="Nivel Educativo",
+                      labels=c("Bajo", "Medio", "Alto"))+
+  scale_color_discrete(guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Prevalencia (con ribbon) de diabetes por nivel educativo y sexo en el período 2003-2020")
+
+fig_1
+
+```
+
+
+
+
+```{r, echo=F}
+
+
+
+```
+
+
+## Desigualdades
+
+```{r, echo=F}
+
+fig_2 <-  
+  rii %>%
+  filter(fr=="diabetes", nombre_ccaa == "España" | nombre_ccaa == "Canarias") %>% 
+  ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
+  geom_hline(yintercept = 1, lty=2)+
+  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  facet_grid(cols = vars(sexo))+
+  geom_line(aes(color=nombre_ccaa))+
+  scale_y_continuous(trans="log",
+                     breaks=c(0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="RII (95% CI)")+
+  scale_color_manual(values=c("España" =  "dimgray",
+                             "Andalucía" = "#CC0033", 
+                             "Aragón" = "#CC0033", 
+                             "Principado de Asturias" = "#CC0033", 
+                             "Illes Balears" = "#CC0033", 
+                             "Canarias" = "deepskyblue3", 
+                             "Cantabria" = "#CC0033", 
+                             "Castilla y León" = "#CC0033", 
+                             "Castilla-La Mancha" = "#CC0033", 
+                             "Cataluña" = "#CC0033", 
+                             "Comunitat Valenciana" = "#CC0033", 
+                             "Extremadura" = "#CC0033", 
+                             "Galicia" = "#CC0033", 
+                             "La Rioja" = "#CC0033", 
+                             "Comunidad de Madrid" = "#CC0033",
+                             "Región de Murcia" = "#CC0033", 
+                             "Comunidad Foral de Navarra" = "#CC0033", 
+                             "País Vasco" = "#CC0033"),
+                     guide="none")+
+  scale_fill_manual(values=c("España" =  "dimgray",
+                             "Andalucía" = "#CC0033", 
+                             "Aragón" = "#CC0033", 
+                             "Principado de Asturias" = "#CC0033", 
+                             "Illes Balears" = "#CC0033", 
+                             "Canarias" = "deepskyblue3", 
+                             "Cantabria" = "#CC0033", 
+                             "Castilla y León" = "#CC0033", 
+                             "Castilla-La Mancha" = "#CC0033", 
+                             "Cataluña" = "#CC0033", 
+                             "Comunitat Valenciana" = "#CC0033", 
+                             "Extremadura" = "#CC0033", 
+                             "Galicia" = "#CC0033", 
+                             "La Rioja" = "#CC0033", 
+                             "Comunidad de Madrid" = "#CC0033",
+                             "Región de Murcia" = "#CC0033", 
+                             "Comunidad Foral de Navarra" = "#CC0033", 
+                             "País Vasco" = "#CC0033"),
+                    name="")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
+
+fig_2
+
+
+
+"España" =  "#4289C2",
+                             "Andalucía" = "#CC0033",
+```
+
+

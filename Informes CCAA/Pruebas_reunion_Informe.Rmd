@@ -168,7 +168,7 @@ fig_2 <-
   facet_grid(cols = vars(sexo))+
   geom_line(aes(color=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+                     breaks=c(-1, 0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
   scale_color_manual(values=c("España" =  "dimgray",

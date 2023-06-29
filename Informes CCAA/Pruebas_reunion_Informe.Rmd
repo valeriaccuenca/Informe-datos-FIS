@@ -85,17 +85,20 @@ fig_1
 ```{r, echo=F}
 fig_2 <-  
   prevalencias %>%
-  filter(nombre_ccaa == "España" | nombre_ccaa == "País Vasco") %>% 
-  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+
-  geom_errorbar(alpha=0.3, aes(color=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  filter(nombre_ccaa == "España" | nombre_ccaa == "Andalucía") %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  #geom_errorbar(alpha=0.3, aes(color=as.factor(education_3)))+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c("España" = "dashed",
+                                   "Andalucía" = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -161,14 +164,15 @@ fig_1
 
 fig_2 <-  
   rii %>%
-  filter(fr=="diabetes", nombre_ccaa == "España" | nombre_ccaa == "Canarias") %>% 
+  filter(fr=="diabetes", nombre_ccaa == "España" | nombre_ccaa == "Andalucía") %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa))+
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(-1, 0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
   scale_color_manual(values=c("España" =  "dimgray",
@@ -189,7 +193,7 @@ fig_2 <-
                              "Región de Murcia" = "#CC0033", 
                              "Comunidad Foral de Navarra" = "#CC0033", 
                              "País Vasco" = "#CC0033"),
-                     guide="none")+
+                     name="")+
   scale_fill_manual(values=c("España" =  "dimgray",
                              "Andalucía" = "#CC0033", 
                              "Aragón" = "#CC0033", 
@@ -208,7 +212,10 @@ fig_2 <-
                              "Región de Murcia" = "#CC0033", 
                              "Comunidad Foral de Navarra" = "#CC0033", 
                              "País Vasco" = "#CC0033"),
-                    name="")+
+                    guide="none")+
+  scale_linetype_manual(values = c("España" = "dashed",
+                                   "Andalucía" = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),

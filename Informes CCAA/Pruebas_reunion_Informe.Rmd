@@ -236,4 +236,71 @@ fig_2
                              "Andalucía" = "#CC0033",
 ```
 
+Código de prueba antes de los cambios definitivos (conservar por si falla algo y tenemos que  volver)
+```{r, echo=F}
+fig_2 <-  
+  rii %>%
+  filter(fr=="diabetes", nombre_ccaa == "España" | nombre_ccaa == "Canarias") %>% 
+  ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
+  geom_hline(yintercept = 1, lty=2)+
+  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  facet_grid(cols = vars(sexo))+
+  geom_line(aes(color=nombre_ccaa))+
+  scale_y_continuous(trans="log",
+                     breaks=c(0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="RII (95% CI)")+
+  scale_color_manual(values=c("España" =  "#4289C2",
+                             "Andalucía" = "#CC0033", 
+                             "Aragón" = "#CC0033", 
+                             "Principado de Asturias" = "#CC0033", 
+                             "Illes Balears" = "#CC0033", 
+                             "Canarias" = "#CC0033", 
+                             "Cantabria" = "#CC0033", 
+                             "Castilla y León" = "#CC0033", 
+                             "Castilla-La Mancha" = "#CC0033", 
+                             "Cataluña" = "#CC0033", 
+                             "Comunitat Valenciana" = "#CC0033", 
+                             "Extremadura" = "#CC0033", 
+                             "Galicia" = "#CC0033", 
+                             "La Rioja" = "#CC0033", 
+                             "Comunidad de Madrid" = "#CC0033",
+                             "Región de Murcia" = "#CC0033", 
+                             "Comunidad Foral de Navarra" = "#CC0033", 
+                             "País Vasco" = "#CC0033"),
+                     guide="none")+
+  scale_fill_manual(values=c("España" =  "#4289C2",
+                             "Andalucía" = "#CC0033", 
+                             "Aragón" = "#CC0033", 
+                             "Principado de Asturias" = "#CC0033", 
+                             "Illes Balears" = "#CC0033", 
+                             "Canarias" = "#CC0033", 
+                             "Cantabria" = "#CC0033", 
+                             "Castilla y León" = "#CC0033", 
+                             "Castilla-La Mancha" = "#CC0033", 
+                             "Cataluña" = "#CC0033", 
+                             "Comunitat Valenciana" = "#CC0033", 
+                             "Extremadura" = "#CC0033", 
+                             "Galicia" = "#CC0033", 
+                             "La Rioja" = "#CC0033", 
+                             "Comunidad de Madrid" = "#CC0033",
+                             "Región de Murcia" = "#CC0033", 
+                             "Comunidad Foral de Navarra" = "#CC0033", 
+                             "País Vasco" = "#CC0033"),
+                    name="")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
+
+fig_2
+
+```
 

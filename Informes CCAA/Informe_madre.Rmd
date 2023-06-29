@@ -52,18 +52,20 @@ load("rii_informes.RData")
 
 ```{r, echo=F}
 fig_1 <-  
-  prevalencias %>%
-  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+ prevalencias %>%
+  filter(nombre_ccaa == nombre_ca[1]  | nombre_ccaa == nombre_ca[v]) %>% 
+  ggplot(aes(x=encuesta, y=(diabetes*100), ymin=(diabetes_low*100), ymax=(diabetes_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -74,7 +76,7 @@ fig_1 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de diabetes por nivel educativo y sexo en el período 2003-2020")
+  labs( title = "Prevalencia (con errorbar) de diabetes por nivel educativo y sexo en el período 2003-2020")
 
 fig_1
 
@@ -86,55 +88,27 @@ fig_1
 ```{r, echo=F}
 
 fig_2 <-  
-  rii %>%
-  filter(fr=="diabetes", nombre_ccaa == "España" | nombre_ccaa == "Canarias") %>% 
+ rii %>%
+  filter(fr=="diabetes", nombre_ca[1]  | nombre_ccaa == nombre_ca[v]) %>%
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa))+
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_color_manual(values=c("España" =  "#4289C2",
-                             "Andalucía" = "#CC0033", 
-                             "Aragón" = "#CC0033", 
-                             "Principado de Asturias" = "#CC0033", 
-                             "Illes Balears" = "#CC0033", 
-                             "Canarias" = "#CC0033", 
-                             "Cantabria" = "#CC0033", 
-                             "Castilla y León" = "#CC0033", 
-                             "Castilla-La Mancha" = "#CC0033", 
-                             "Cataluña" = "#CC0033", 
-                             "Comunitat Valenciana" = "#CC0033", 
-                             "Extremadura" = "#CC0033", 
-                             "Galicia" = "#CC0033", 
-                             "La Rioja" = "#CC0033", 
-                             "Comunidad de Madrid" = "#CC0033",
-                             "Región de Murcia" = "#CC0033", 
-                             "Comunidad Foral de Navarra" = "#CC0033", 
-                             "País Vasco" = "#CC0033"),
-                     guide="none")+
-  scale_fill_manual(values=c("España" =  "#4289C2",
-                             "Andalucía" = "#CC0033", 
-                             "Aragón" = "#CC0033", 
-                             "Principado de Asturias" = "#CC0033", 
-                             "Illes Balears" = "#CC0033", 
-                             "Canarias" = "#CC0033", 
-                             "Cantabria" = "#CC0033", 
-                             "Castilla y León" = "#CC0033", 
-                             "Castilla-La Mancha" = "#CC0033", 
-                             "Cataluña" = "#CC0033", 
-                             "Comunitat Valenciana" = "#CC0033", 
-                             "Extremadura" = "#CC0033", 
-                             "Galicia" = "#CC0033", 
-                             "La Rioja" = "#CC0033", 
-                             "Comunidad de Madrid" = "#CC0033",
-                             "Región de Murcia" = "#CC0033", 
-                             "Comunidad Foral de Navarra" = "#CC0033", 
-                             "País Vasco" = "#CC0033"),
-                    name="")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -145,7 +119,7 @@ fig_2 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo en el período 2003-2020")
 
 fig_2
 
@@ -159,17 +133,19 @@ fig_2
 ```{r, echo=F}
 fig_3 <-  
   prevalencias %>%
-  filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(hta*100), ymin=(hta_low*100), ymax=(hta_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  filter(nombre_ccaa == nombre_ca[1]  | nombre_ccaa == nombre_ca[v]) %>% 
+  ggplot(aes(x=encuesta, y=(hta*100), ymin=(hta_low*100), ymax=(hta_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de hipertensión arterial (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -180,7 +156,7 @@ fig_3 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de hipertensión arterial por nivel educativo y sexo \nen el período 2003-2020")
+  labs( title = "Prevalencia de hipertensión arterial por nivel educativo y sexo en el período 2003-2020")
 
 fig_3
 
@@ -191,19 +167,27 @@ fig_3
 ```{r, echo=F}
 
 fig_4 <-  
-  rii %>% 
-  filter(fr=="hta", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
+rii %>%
+  filter(fr=="hta", nombre_ca[1]  | nombre_ccaa == nombre_ca[v]) %>%
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -214,7 +198,7 @@ fig_4 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en hipertensión arterial por sexo \nen el período 2003-2020")
+  labs( title = "Índice Relativo de Desigualdad (RII) en hipertensión arterial por sexo en el período 2003-2020")
 
 fig_4
 
@@ -228,16 +212,18 @@ fig_4
 fig_5 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(col*100), ymin=(col_low*100), ymax=(col_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(col*100), ymin=(col_low*100), ymax=(col_upp*100), color=as.factor(education_3),   linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de hipercolesterolemia (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -263,15 +249,23 @@ fig_6 <-
   filter(fr=="col", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -296,16 +290,18 @@ fig_6
 fig_7 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(obesity*100), ymin=(obesity_low*100), ymax=(obesity_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(obesity*100), ymin=(obesity_low*100), ymax=(obesity_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de obesidad (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -331,15 +327,23 @@ fig_8 <-
   filter(fr=="obesity", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -364,16 +368,18 @@ fig_8
 fig_9 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(Sedentarismo*100), ymin=(sedentarismo_low*100), ymax=(sedentarismo_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(Sedentarismo*100), ymin=(sedentarismo_low*100), ymax=(sedentarismo_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de sedentarismo (95% IC)")+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -399,15 +405,23 @@ fig_10 <-
   filter(fr=="Sedentarismo", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -432,16 +446,18 @@ fig_10
 fig_11 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(smoking*100), ymin=(smoking_low*100), ymax=(smoking_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(smoking*100), ymin=(smoking_low*100), ymax=(smoking_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de tabaquismo (95% IC)")+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -467,15 +483,23 @@ fig_12 <-
   filter(fr=="smoking", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -500,16 +524,18 @@ fig_12
 fig_13 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(alcohol*100), ymin=(alcohol_low*100), ymax=(alcohol_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(alcohol*100), ymin=(alcohol_low*100), ymax=(alcohol_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de alcohol (95% IC)")+
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -535,15 +561,23 @@ fig_14 <-
   filter(fr=="alcohol", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -568,16 +602,18 @@ fig_14
 fig_15 <-  
   prevalencias %>%
   filter(nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
-  ggplot(aes(x=encuesta, y=(fruta_verdura*100), ymin=(fruta_verdura_low*100), ymax=(fruta_verdura_upp*100), group=education_3)) +
-  geom_line(aes(color=as.factor(education_3)))+  
-  geom_ribbon(alpha=0.3, aes(fill=as.factor(education_3)))+
-  facet_grid(rows = vars(nombre_ccaa),cols = vars(sexo))+
+  ggplot(aes(x=encuesta, y=(fruta_verdura*100), ymin=(fruta_verdura_low*100), ymax=(fruta_verdura_upp*100), color=as.factor(education_3), linetype=as.factor(nombre_ccaa), group=interaction(education_3, nombre_ccaa)))+
+  geom_line(size=0.7)+
+  facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de diabetes (95% IC)")+
   scale_fill_discrete(name="Nivel Educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_color_discrete(guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),
@@ -603,15 +639,23 @@ fig_16 <-
   filter(fr=="food", nombre_ccaa == nombre_ca[1] | nombre_ccaa == nombre_ca[v]) %>% 
   ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
   geom_hline(yintercept = 1, lty=2)+
-  geom_ribbon(alpha=0.3, aes(fill=nombre_ccaa))+
+    geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
   facet_grid(cols = vars(sexo))+
-  geom_line(aes(color=nombre_ccaa)) +
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
   scale_y_continuous(trans="log",
-                     breaks=c(0.75, 1, 1.5, 2, 4, 8, 16, 32))+
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.6, 25))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="RII (95% CI)")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(guide="none")+
+  scale_color_manual(values=c(nombre_ca[1] =  "dimgray",
+                              nombre_ca[v] = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c(nombre_ca[1] =  "dimgray",
+                             nombre_ca[v] = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c(nombre_ca[1] = "dashed",
+                                   nombre_ca[v] = "solid"),
+                        guide="none")+
   theme_bw()+
   theme(axis.text=element_text(size=10, color="black"),
         axis.title=element_text(size=10, face="bold", color="black"),

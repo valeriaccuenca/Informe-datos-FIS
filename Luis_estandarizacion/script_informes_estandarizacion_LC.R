@@ -19,9 +19,12 @@ library(cowplot)
 library(lpSolve)
 library(irr)
 library(readr)
+library(ggplot2)
 
 
 rm(list=ls())
+
+setwd("C:/Users/luis_/OneDrive - Universidad de Alcala/Investigacion/FIS_CVDinequities/R/Informe-datos-FIS")
 
 theme_fis<-  theme(axis.text=element_text(size=10, color="black"),
                    axis.title=element_text(size=10, face="bold", color="black"),
@@ -33,13 +36,10 @@ theme_fis<-  theme(axis.text=element_text(size=10, color="black"),
                    axis.text.y = element_text(color="black", size=10),
                    legend.position="bottom")
 
-load("Luis_estandarizacion/sedentarismo_prevalencias_informes.RData")
-load("Luis_estandarizacion/sedentarismo_rii_informes.RData")
 desigualdades_rii_spain <- read.csv("Luis_estandarizacion/rii_spain.csv")
 desigualdades_rii_ccaa <- read.csv("Luis_estandarizacion/rii_ccaa.csv")
 prevalencias_spain <- read.csv("Luis_estandarizacion/prevalencias_spain.csv")
 prevalencias_ccaa <- read.csv("Luis_estandarizacion/prevalencias_ccaa.csv")
-
 
 #Creamos base de datos conjunta de RII para informes#
 #####################################################
@@ -51,34 +51,141 @@ prevalencias_ccaa <- read.csv("Luis_estandarizacion/prevalencias_ccaa.csv")
 #####################################################
 
 
-ccaa_nombres <- sedentarismo_rii %>% 
-  select(ccaa, nombre_notilde) %>% 
-  filter(ccaa==0)
-
 desigualdades_rii_spain <- desigualdades_rii_spain %>% 
   rename(fr=risk_factor) %>% 
   select(-c(X)) %>% 
-  filter(encuesta!="2009-01-01" & fr!="sedentario") %>% 
+  filter(encuesta!="2009") %>% 
   mutate(abreviatura="ES",
-         nombre_notilde="Espana")
+         nombre_notilde="Espana",
+         fr = recode(fr, "sedentario"="sedentarismo"))
 
 desigualdades_rii_ccaa <- desigualdades_rii_ccaa %>% 
   select(-c(X, id_mapa, nombre)) %>%
-  mutate(encuesta = recode(encuesta, "2001-01-01"="2001", "2003-01-01"="2003", "2006-01-01"="2006", "2011-01-01"="2011", "2014-01-01"="2014", "2017-01-01"="2017", "2020-01-01"="2020")) %>% 
-  filter(encuesta!="2009-01-01" & fr!="sedentario")
+  mutate(encuesta = recode(encuesta, "2001-01-01"="2001", "2003-01-01"="2003", "2006-01-01"="2006", "2011-01-01"="2011", "2014-01-01"="2014", "2017-01-01"="2017", "2020-01-01"="2020"),
+         fr = recode(fr, "sedentario"="sedentarismo")) %>% 
+  filter(encuesta!="2009-01-01")
 
 rii <- desigualdades_rii_spain %>% 
   rbind(desigualdades_rii_ccaa) %>% 
-  rbind(sedentarismo_rii) %>% 
   filter(encuesta!=2001) %>% 
-  filter(encuesta!=2009)
+  filter(encuesta!=2009) %>% 
+  mutate(fr=recode(fr, fruta_verdura="food"),
+         sexo=recode(sexo, overall="Overall"))
 
 rii$ccaa <- as.factor(rii$ccaa)
+
+ccaa <- data.frame(abreviatura = c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
+                                   "RI", "MD", "MC", "NC", "PV"),
+                   nombre_ccaa = c("España", "Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
+                                   "Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña",
+                                   "Comunitat Valenciana", "Extremadura", "Galicia", "La Rioja", "Comunidad de Madrid",
+                                   "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco"))
+
+rii <- rii %>% 
+  left_join(ccaa)
+
+
+
+
+ccaa <- data.frame(abreviatura = c("ES", "AN", "AR", "AS", "IB", "CN", "CB", "CM", "CL", "CT", "VC", "EX", "GA",
+                                   "RI", "MD", "MC", "NC", "PV"),
+                   nombre_ccaa = c("España", "Andalucía", "Aragón", "Principado de Asturias", "Illes Balears", "Canarias",
+                                   "Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña",
+                                   "Comunitat Valenciana", "Extremadura", "Galicia", "La Rioja", "Comunidad de Madrid",
+                                   "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco"))
+
+rii <- rii %>% 
+  left_join(ccaa)
 
 save(rii, file = "Luis_estandarizacion/RII_informes.RData")
 save(rii, file = "Informes CCAA/RII_informes.RData")
 
 rm(desigualdades_rii_ccaa, desigualdades_rii_spain)
+
+fig_1 <-  
+  rii %>%
+  filter(fr=="smoking", nombre_ccaa == "España"  | nombre_ccaa == "Galicia") %>% 
+  ggplot(aes(x=as.numeric(encuesta), y=rii, ymin=rii_infci, ymax=rii_supci), group=nombre_ccaa) +
+  geom_hline(yintercept = 1, lty=2)+
+  geom_ribbon(alpha=0.1, aes(fill=nombre_ccaa))+
+  facet_grid(cols = vars(sexo))+
+  geom_line(aes(color=nombre_ccaa, linetype=nombre_ccaa))+
+  scale_y_continuous(trans="log",
+                     breaks=c(0, 0.5, 1, 1.5, 2, 4, 8, 16, 32, 64))+
+  coord_cartesian(ylim= c(0.3, 25))+
+  scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
+  labs(x="", y="RII (95% CI)")+
+  scale_color_manual(values=c("España" =  "dimgray",
+                              "Andalucía" = "#CC0033", 
+                              "Aragón" = "#CC0033", 
+                              "Principado de Asturias" = "#CC0033", 
+                              "Illes Balears" = "#CC0033", 
+                              "Canarias" = "#CC0033", 
+                              "Cantabria" = "#CC0033", 
+                              "Castilla y León" = "#CC0033", 
+                              "Castilla-La Mancha" = "#CC0033", 
+                              "Cataluña" = "#CC0033", 
+                              "Comunitat Valenciana" = "#CC0033", 
+                              "Extremadura" = "#CC0033", 
+                              "Galicia" = "#CC0033", 
+                              "La Rioja" = "#CC0033", 
+                              "Comunidad de Madrid" = "#CC0033",
+                              "Región de Murcia" = "#CC0033", 
+                              "Comunidad Foral de Navarra" = "#CC0033", 
+                              "País Vasco" = "#CC0033"),
+                     name="")+
+  scale_fill_manual(values=c("España" =  "dimgray",
+                             "Andalucía" = "#CC0033", 
+                             "Aragón" = "#CC0033", 
+                             "Principado de Asturias" = "#CC0033", 
+                             "Illes Balears" = "#CC0033", 
+                             "Canarias" = "#CC0033", 
+                             "Cantabria" = "#CC0033", 
+                             "Castilla y León" = "#CC0033", 
+                             "Castilla-La Mancha" = "#CC0033", 
+                             "Cataluña" = "#CC0033", 
+                             "Comunitat Valenciana" = "#CC0033", 
+                             "Extremadura" = "#CC0033", 
+                             "Galicia" = "#CC0033", 
+                             "La Rioja" = "#CC0033", 
+                             "Comunidad de Madrid" = "#CC0033",
+                             "Región de Murcia" = "#CC0033", 
+                             "Comunidad Foral de Navarra" = "#CC0033", 
+                             "País Vasco" = "#CC0033"),
+                    guide="none")+
+  scale_linetype_manual(values = c("España" = "dashed",
+                                   "Andalucía" = "solid", 
+                                   "Aragón" = "solid", 
+                                   "Principado de Asturias" = "solid", 
+                                   "Illes Balears" = "solid", 
+                                   "Canarias" = "solid", 
+                                   "Cantabria" = "solid", 
+                                   "Castilla y León" = "solid", 
+                                   "Castilla-La Mancha" = "solid", 
+                                   "Cataluña" = "solid", 
+                                   "Comunitat Valenciana" = "solid", 
+                                   "Extremadura" = "solid", 
+                                   "Galicia" = "solid", 
+                                   "La Rioja" = "solid", 
+                                   "Comunidad de Madrid" = "solid",
+                                   "Región de Murcia" = "solid", 
+                                   "Comunidad Foral de Navarra" = "solid", 
+                                   "País Vasco" = "solid"),
+                        guide="none")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10, color="black"),
+        axis.title=element_text(size=10, face="bold", color="black"),
+        strip.text = element_text(size=10, face="bold", color="black"),
+        legend.text=element_text(size=10, color="black"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_text(color="black", size=8),
+        axis.text.y = element_text(color="black", size=10),
+        legend.position="bottom")+
+  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
+
+fig_1
+
 
 ##########################
   

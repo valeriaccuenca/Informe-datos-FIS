@@ -468,7 +468,7 @@ fig_6 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice relativo de desigualdad (RII) en hipercolesterolemia por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en hipercolesterolemia por sexo en el período 2003-2020")
 
 fig_6
 

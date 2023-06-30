@@ -104,6 +104,7 @@ for (v in 2:length(nombre_ca)) {
   
   print(paste0("Informe ", nombre_ca[v]))
   rmarkdown::render(input = paste0("Informe_madre.Rmd"),
+                    output_dir = "HTML CCAA",
                     output_file = paste0("Informe_", nombre_ca[v], ".html"))
   
   print(paste0("PPT ", nombre_ca[v]))

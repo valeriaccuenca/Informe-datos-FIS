@@ -11,10 +11,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       fig.width = 8,
-  fig.height = 6)
-library(tidyverse)
-library(readxl)
-library(ggplot2)
+  fig.height = 6,
+  warning = FALSE)
+
 setwd(getwd())
 
 ```
@@ -27,7 +26,7 @@ font-family: Arial;
 </style>
 ```
 
-El presente informe muestra la evolución de la prevalencia y el índice relativo de desigualdad (RII por sus siglas en inglés), en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular (FRECV) en `r nombre_ca[v]` desde el año 2001 hasta el 2020*, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
+El presente informe muestra la evolución de la prevalencia y el índice relativo de desigualdad (RII, por sus siglas en inglés), en función del nivel educativo, para diferentes factores de riesgo de enfermedad cardiovascular (FRECV) en `r nombre_ca[v]` desde el año 2001 hasta el 2020*, utilizando los datos de la Encuesta Nacional de Salud en España/Encuesta Europea de Salud en España.
 
 Los FRECV incluidos en este informe son la diabetes, la hipertensión arterial, la hipercolesterolemia, la obesidad, el sedentarismo, el tabaquismo, el consumo de alcohol y la alimentación (ver definiciones en la sección "Nota metodológica" al final del informe)
 
@@ -59,8 +58,8 @@ fig_1 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Diabetes (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de diabetes (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -92,7 +91,7 @@ fig_1 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia (con errorbar) de diabetes por nivel educativo y sexo en el período 2003-2020")
+  labs( title = "Prevalencia de diabetes por nivel educativo y sexo en el período 2003-2020")
 
 fig_1
 
@@ -183,7 +182,7 @@ fig_2 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en diabetes por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en diabetes por sexo en el período 2003-2020")
 
 fig_2
 
@@ -204,8 +203,8 @@ fig_3 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Hipertensión Arterial (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de hipertensión arterial (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -327,7 +326,7 @@ rii %>%
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en hipertensión arterial por sexo en el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en hipertensión arterial por sexo en el período 2003-2020")
 
 fig_4
 
@@ -346,8 +345,8 @@ fig_5 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Hipercolesterolemia (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de hipercolesterolemia (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -469,7 +468,7 @@ fig_6 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en hipercolesterolemia por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en hipercolesterolemia por sexo \nen el período 2003-2020")
 
 fig_6
 
@@ -488,8 +487,8 @@ fig_7 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Obesidad (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de obesidad (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -611,7 +610,7 @@ fig_8 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en obesidad por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en obesidad por sexo en el período 2003-2020")
 
 fig_8
 
@@ -630,8 +629,8 @@ fig_9 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Sedentarismo (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de sedentarismo (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -753,7 +752,7 @@ fig_10 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en sedentarismo por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en sedentarismo por sexo en el período 2003-2020")
 
 fig_10
 
@@ -772,8 +771,8 @@ fig_11 <-
   facet_grid(cols = vars(sexo))+
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
-  labs(x="", y="Prevalencia de Tabaquismo (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  labs(x="", y="Prevalencia de tabaquismo (95% IC)")+
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -895,7 +894,7 @@ fig_12 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en tabaquismo por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en tabaquismo por sexo en el período 2003-2020")
 
 fig_12
 
@@ -915,7 +914,7 @@ fig_13 <-
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de consumo de alcohol (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -947,7 +946,7 @@ fig_13 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de consumo de alcohol por nivel educativo y sexo \nen el período 2003-2020")
+  labs( title = "Prevalencia de consumo de alcohol por nivel educativo y sexo en el período 2003-2020")
 
 fig_13
 
@@ -1037,7 +1036,7 @@ fig_14 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en consumo de alcohol por sexo \nen el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en consumo de alcohol por sexo en el período 2003-2020")
 
 fig_14
 
@@ -1057,7 +1056,7 @@ fig_15 <-
   scale_y_continuous(breaks = c(20, 40, 60, 100))+
   scale_x_continuous(breaks = c(2001, 2003, 2006, 2011, 2014, 2017, 2020))+
   labs(x="", y="Prevalencia de consumo de fruta y verdura (95% IC)")+
-  scale_color_discrete(name="Nivel Educativo",
+  scale_color_discrete(name="Nivel educativo",
                       labels=c("Bajo", "Medio", "Alto"))+
   scale_fill_discrete(guide="none")+
   scale_linetype_manual(values = c("España" = "dashed",
@@ -1089,7 +1088,7 @@ fig_15 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Prevalencia de consumo de fruta y verdura por nivel educativo y sexo \nen el período 2003-2020")
+  labs( title = "Prevalencia de consumo de fruta y verdura por nivel educativo y sexo en el período 2003-2020")
 
 fig_15
 
@@ -1179,7 +1178,7 @@ fig_16 <-
         axis.text.x = element_text(color="black", size=8),
         axis.text.y = element_text(color="black", size=10),
         legend.position="bottom")+
-  labs( title = "Índice Relativo de Desigualdad (RII) en consumo de fruta y verdura, por sexo, \n en el período 2003-2020")
+  labs( title = "Índice relativo de desigualdad (RII) en consumo de fruta y verdura por sexo en el período 2003-2020")
 
 fig_16
 
@@ -1193,6 +1192,7 @@ A continuación, se detalla la información acerca de las variables relacionadas
 
 
 <ins>Definiciones de los FRECV</ins>
+<br />
 
 * __Diabetes__: personas que respondieron afirmativamente a las preguntas "¿Ha tenido alguna vez diabetes?" o "¿Le han diagnosticado alguna vez diabetes?".
 
@@ -1200,7 +1200,7 @@ A continuación, se detalla la información acerca de las variables relacionadas
 
 * __Hipercolesterolemia__: personas que respondieron afirmativamente a las preguntas "¿Ha tenido alguna vez hipercolesterolemia?" o "¿Le han diagnosticado alguna vez hipercolesterolemia?".
 
-* __Obesidad__: personas con un índice de masa corporal (IMC) $\ge$30 a partir de la altura y el peso autorreportados en la encuesta.
+* __Obesidad__: personas con un índice de masa corporal (IMC) $\ge$ 30kg/m^2^ a partir de la altura y el peso autorreportados en la encuesta.
 
 * __Sedentarismo__: personas que respondieron "No hago ningún tipo de ejercicio" a la pregunta "¿Cuál de las siguientes opciones describe mejor la frecuencia con la que realiza actividad física en su tiempo libre?" (encuesta 2003), personas que respondieron "No, habitualmente no realizo actividad física" a la pregunta "¿Usted realiza en su tiempo libre actividad física como caminar, deporta, gimnasia, etc.?" (encuesta 2006), y personas que respondieron "No realizo ningún tipo de ejercicio" a la pregunta "¿Cuál de las siguientes opciones describe mejor la frecuencia con la que realiza actividad física en su tiempo libre?" (encuestas 2011-2020).
 
